@@ -3,6 +3,9 @@ foam.LIB({
 
   methods: [
     function toSwiftType(type) {
+      if ( cls = foam.lookup(type, true) ) {
+        return cls.model_.swiftName;
+      }
       // TODO this method needs work.
       return type == 'Boolean' ? 'Bool' :
              type
@@ -61,8 +64,13 @@ foam.CLASS({
           cls = cls || foam.swift.Protocol.create();
 
           cls.name = this.model_.swiftName;
+          cls.implements = this.model_.implements.map(function(i) { return foam.lookup(i.path).model_.swiftName });
+          cls.extends = this.model_.extends && foam.lookup(this.model_.extends).swiftName;
 
-          var axioms = this.getAxioms();
+          var self = this;
+          var axioms = this.getAxioms().filter(function(a) {
+            return !self.getSuperAxiomByName(a.name);
+          });
 
           for ( var i = 0 ; i < axioms.length ; i++ ) {
             axioms[i].buildSwiftClass && axioms[i].buildSwiftClass(cls);

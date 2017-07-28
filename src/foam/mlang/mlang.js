@@ -53,6 +53,7 @@ foam.INTERFACE({
   methods: [
     {
       name: 'f',
+      swiftReturns: 'Any?',
       args: [
         'obj'
       ]
@@ -73,7 +74,8 @@ foam.INTERFACE({
 
   methods: [
     {
-      name: 'partialEval'
+      name: 'partialEval',
+      returns: 'foam.mlang.Expr',
     }
   ]
 });

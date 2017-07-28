@@ -13,6 +13,14 @@ foam.CLASS({
     },
     {
       class: 'String',
+      name: 'extends',
+    },
+    {
+      class: 'StringArray',
+      name: 'implements',
+    },
+    {
+      class: 'String',
       name: 'visibility',
       value: 'public'
     },
@@ -43,7 +51,11 @@ foam.CLASS({
         this.visibility,
         this.visibility ? ' ' : '',
         'protocol ',
-        this.name);
+        this.name,
+        this.extends || this.implements.length ? ': ' : '',
+        this.extends || '',
+        this.extends && this.implements.length ? ', ' : '',
+        this.implements.join(', '));
 
       o.out(' {\n');
 
