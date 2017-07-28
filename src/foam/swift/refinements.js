@@ -103,7 +103,9 @@ foam.CLASS({
     {
       class: 'String',
       name: 'swiftType',
-      value: 'Any?',
+      expression: function(of) {
+        return foam.util.toSwiftType(of) || 'Any?';
+      },
     },
   ],
   methods: [

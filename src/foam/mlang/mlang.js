@@ -55,7 +55,10 @@ foam.INTERFACE({
       name: 'f',
       swiftReturns: 'Any?',
       args: [
-        'obj'
+        {
+          name: 'obj',
+          of: 'FObject',
+        },
       ]
     }
   ]
