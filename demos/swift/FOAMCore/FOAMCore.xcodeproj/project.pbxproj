@@ -19,6 +19,7 @@
 		107AD3B01F2B680F008C134F /* Initializable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 107AD3AF1F2B680F008C134F /* Initializable.swift */; };
 		107AD3B21F2B68D9008C134F /* ContextAware.swift in Sources */ = {isa = PBXBuildFile; fileRef = 107AD3B11F2B68D9008C134F /* ContextAware.swift */; };
 		107AD3B41F2B695C008C134F /* ContextAwareSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 107AD3B31F2B695C008C134F /* ContextAwareSupport.swift */; };
+		107AD3B71F2B77BC008C134F /* foam_mlang_Expr.swift in Sources */ = {isa = PBXBuildFile; fileRef = 107AD3B61F2B77BC008C134F /* foam_mlang_Expr.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +48,7 @@
 		107AD3AF1F2B680F008C134F /* Initializable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Initializable.swift; path = ../../../../src/foam/core/Initializable.swift; sourceTree = "<group>"; };
 		107AD3B11F2B68D9008C134F /* ContextAware.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ContextAware.swift; path = ../../../../src/foam/core/ContextAware.swift; sourceTree = "<group>"; };
 		107AD3B31F2B695C008C134F /* ContextAwareSupport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ContextAwareSupport.swift; path = ../../../../src/foam/core/ContextAwareSupport.swift; sourceTree = "<group>"; };
+		107AD3B61F2B77BC008C134F /* foam_mlang_Expr.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = foam_mlang_Expr.swift; path = ../../gen/foam_mlang_Expr.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,6 +91,7 @@
 		107AD38A1F2B5AC8008C134F /* FOAMCore */ = {
 			isa = PBXGroup;
 			children = (
+				107AD3B51F2B77A4008C134F /* gen */,
 				107AD3A21F2B5B32008C134F /* handwritten */,
 				107AD38B1F2B5AC9008C134F /* FOAMCore.h */,
 				107AD38C1F2B5AC9008C134F /* Info.plist */,
@@ -119,6 +122,14 @@
 				107AD3A51F2B5CF3008C134F /* XFactory.swift */,
 			);
 			name = handwritten;
+			sourceTree = "<group>";
+		};
+		107AD3B51F2B77A4008C134F /* gen */ = {
+			isa = PBXGroup;
+			children = (
+				107AD3B61F2B77BC008C134F /* foam_mlang_Expr.swift */,
+			);
+			name = gen;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -232,6 +243,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				107AD3AC1F2B63A9008C134F /* FacetManager.swift in Sources */,
+				107AD3B71F2B77BC008C134F /* foam_mlang_Expr.swift in Sources */,
 				107AD3B41F2B695C008C134F /* ContextAwareSupport.swift in Sources */,
 				107AD3A41F2B5B76008C134F /* X.swift in Sources */,
 				107AD3B21F2B68D9008C134F /* ContextAware.swift in Sources */,

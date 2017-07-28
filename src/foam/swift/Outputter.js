@@ -16,14 +16,14 @@
  */
 
 foam.CLASS({
-  package: 'foam.java',
+  package: 'foam.swift',
   name: 'Outputter',
   extends: 'foam.util.CodeOutputter',
 
   properties: [
     {
       name: 'outFunc',
-      value: 'outputJava',
+      value: 'outputSwift',
     },
   ]
 });

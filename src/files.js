@@ -72,6 +72,9 @@ FOAM_FILES([
   { name: "foam/core/Action" },
   { name: "foam/core/Reaction" },
   { name: "foam/core/Serializable" },
+
+  { name: "foam/util/CodeOutputter", flags: ['node'] },
+
   { name: "foam/java/Argument", flags: ['java'] },
   { name: "foam/java/Class", flags: ['java'] },
   { name: "foam/java/ClassInfo", flags: ['java'] },
@@ -90,6 +93,15 @@ FOAM_FILES([
   { name: "foam/java/Skeleton", flags: ['java'] },
   { name: "foam/java/JavaImport", flags: ['java'] },
   { name: "foam/java/refinements", flags: ['java'] },
+
+  { name: "foam/swift/Argument", flags: ['swift'] },
+  { name: "foam/swift/Method", flags: ['swift'] },
+  { name: "foam/swift/ProtocolArgument", flags: ['swift'] },
+  { name: "foam/swift/ProtocolMethod", flags: ['swift'] },
+  { name: "foam/swift/Protocol", flags: ['swift'] },
+  { name: "foam/swift/Outputter", flags: ['swift'] },
+  { name: "foam/swift/refinements", flags: ['swift'] },
+
   { name: "foam/util/Timer" },
   { name: "foam/log/LogLevel" },
   { name: "foam/log/Logger" },
