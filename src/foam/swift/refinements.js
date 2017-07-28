@@ -1,3 +1,15 @@
+foam.LIB({
+  name: 'foam.util',
+
+  methods: [
+    function toSwiftType(type) {
+      // TODO this method needs work.
+      return type == 'Boolean' ? 'Bool' :
+             type
+    },
+  ]
+});
+
 foam.CLASS({
   refines: 'foam.core.Model',
   requires: [
@@ -157,7 +169,10 @@ foam.CLASS({
     },
     {
       class: 'String',
-      name: 'swiftReturnType',
+      name: 'swiftReturns',
+      expression: function(returns) {
+        return foam.util.toSwiftType(returns)
+      },
     },
     {
       class: 'StringArray',
@@ -181,7 +196,7 @@ foam.CLASS({
       cls.method(this.Method.create({
         name: this.swiftName,
         body: this.swiftCode,
-        returnType: this.swiftReturnType,
+        returnType: this.swiftReturns,
         args: this.swiftArgs,
         visibility: this.swiftVisibility,
         override: !!(superAxiom && superAxiom.swiftCode) || this.name == 'init',
@@ -208,7 +223,7 @@ foam.CLASS({
       if ( !this.swiftEnabled ) return;
       cls.method(this.ProtocolMethod.create({
         name: this.swiftName,
-        returnType: this.swiftReturnType,
+        returnType: this.swiftReturns,
         args: this.swiftArgs,
       }));
     },

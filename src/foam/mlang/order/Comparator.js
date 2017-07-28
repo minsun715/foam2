@@ -13,6 +13,7 @@
    methods: [
      {
        name: 'compare',
+       returns: 'Int',
        args: [
          'o1',
          'o2'
@@ -20,6 +21,7 @@
      },
      {
        name: 'toIndex',
+       swiftEnabled: false,
        args: [
          'tail'
        ]
@@ -28,17 +30,20 @@
        // TODO: why is this here?
        /** Returns remaning ordering without this first one, which may be the
          only one. */
-       name: 'orderTail'
+       name: 'orderTail',
+       swiftEnabled: false,
      },
      {
        // TODO: why is this here?
        /** The property, if any, sorted by this ordering. */
-       name: 'orderPrimaryProperty'
+       name: 'orderPrimaryProperty',
+       swiftEnabled: false,
      },
      {
        // TODO: why is this here?
        /** Returns 1 or -1 for ascending/descending */
-       name: 'orderDirection'
+       name: 'orderDirection',
+       swiftEnabled: false,
      }
    ]
  });

@@ -24,6 +24,7 @@ var executor = foam.classloader.NodeJsModelExecutor.create({
   modelArgs: {
     models: [
       'foam.mlang.Expr',
+      'foam.mlang.order.Comparator',
     ],
     outdir: genDir,
   },

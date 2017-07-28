@@ -19,7 +19,10 @@
 		107AD3B01F2B680F008C134F /* Initializable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 107AD3AF1F2B680F008C134F /* Initializable.swift */; };
 		107AD3B21F2B68D9008C134F /* ContextAware.swift in Sources */ = {isa = PBXBuildFile; fileRef = 107AD3B11F2B68D9008C134F /* ContextAware.swift */; };
 		107AD3B41F2B695C008C134F /* ContextAwareSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 107AD3B31F2B695C008C134F /* ContextAwareSupport.swift */; };
-		107AD3B71F2B77BC008C134F /* foam_mlang_Expr.swift in Sources */ = {isa = PBXBuildFile; fileRef = 107AD3B61F2B77BC008C134F /* foam_mlang_Expr.swift */; };
+		107AD3B91F2B790A008C134F /* PropertyInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 107AD3B81F2B790A008C134F /* PropertyInfo.swift */; };
+		107AD3BC1F2B7A60008C134F /* foam_mlang_Expr.swift in Sources */ = {isa = PBXBuildFile; fileRef = 107AD3BA1F2B7A60008C134F /* foam_mlang_Expr.swift */; };
+		107AD3BD1F2B7A60008C134F /* foam_mlang_order_Comparator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 107AD3BB1F2B7A60008C134F /* foam_mlang_order_Comparator.swift */; };
+		107AD3BF1F2B7EF8008C134F /* ClassInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 107AD3BE1F2B7EF8008C134F /* ClassInfo.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,7 +51,10 @@
 		107AD3AF1F2B680F008C134F /* Initializable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Initializable.swift; path = ../../../../src/foam/core/Initializable.swift; sourceTree = "<group>"; };
 		107AD3B11F2B68D9008C134F /* ContextAware.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ContextAware.swift; path = ../../../../src/foam/core/ContextAware.swift; sourceTree = "<group>"; };
 		107AD3B31F2B695C008C134F /* ContextAwareSupport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ContextAwareSupport.swift; path = ../../../../src/foam/core/ContextAwareSupport.swift; sourceTree = "<group>"; };
-		107AD3B61F2B77BC008C134F /* foam_mlang_Expr.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = foam_mlang_Expr.swift; path = ../../gen/foam_mlang_Expr.swift; sourceTree = "<group>"; };
+		107AD3B81F2B790A008C134F /* PropertyInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PropertyInfo.swift; path = ../../../../src/foam/core/PropertyInfo.swift; sourceTree = "<group>"; };
+		107AD3BA1F2B7A60008C134F /* foam_mlang_Expr.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = foam_mlang_Expr.swift; path = ../../gen/foam_mlang_Expr.swift; sourceTree = "<group>"; };
+		107AD3BB1F2B7A60008C134F /* foam_mlang_order_Comparator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = foam_mlang_order_Comparator.swift; path = ../../gen/foam_mlang_order_Comparator.swift; sourceTree = "<group>"; };
+		107AD3BE1F2B7EF8008C134F /* ClassInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ClassInfo.swift; path = ../../../../src/foam/core/ClassInfo.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -114,9 +120,11 @@
 				107AD3A31F2B5B76008C134F /* X.swift */,
 				107AD3A91F2B601C008C134F /* stdlib.swift */,
 				107AD3A71F2B5D5F008C134F /* EmptyX.swift */,
+				107AD3BE1F2B7EF8008C134F /* ClassInfo.swift */,
 				107AD3B11F2B68D9008C134F /* ContextAware.swift */,
 				107AD3AB1F2B63A9008C134F /* FacetManager.swift */,
 				107AD3B31F2B695C008C134F /* ContextAwareSupport.swift */,
+				107AD3B81F2B790A008C134F /* PropertyInfo.swift */,
 				107AD3AF1F2B680F008C134F /* Initializable.swift */,
 				107AD3AD1F2B6401008C134F /* SimpleFacetManager.swift */,
 				107AD3A51F2B5CF3008C134F /* XFactory.swift */,
@@ -127,7 +135,8 @@
 		107AD3B51F2B77A4008C134F /* gen */ = {
 			isa = PBXGroup;
 			children = (
-				107AD3B61F2B77BC008C134F /* foam_mlang_Expr.swift */,
+				107AD3BA1F2B7A60008C134F /* foam_mlang_Expr.swift */,
+				107AD3BB1F2B7A60008C134F /* foam_mlang_order_Comparator.swift */,
 			);
 			name = gen;
 			sourceTree = "<group>";
@@ -243,14 +252,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				107AD3AC1F2B63A9008C134F /* FacetManager.swift in Sources */,
-				107AD3B71F2B77BC008C134F /* foam_mlang_Expr.swift in Sources */,
 				107AD3B41F2B695C008C134F /* ContextAwareSupport.swift in Sources */,
+				107AD3BC1F2B7A60008C134F /* foam_mlang_Expr.swift in Sources */,
 				107AD3A41F2B5B76008C134F /* X.swift in Sources */,
 				107AD3B21F2B68D9008C134F /* ContextAware.swift in Sources */,
 				107AD3AA1F2B601C008C134F /* stdlib.swift in Sources */,
 				107AD3A61F2B5CF3008C134F /* XFactory.swift in Sources */,
 				107AD3A81F2B5D5F008C134F /* EmptyX.swift in Sources */,
 				107AD3AE1F2B6401008C134F /* SimpleFacetManager.swift in Sources */,
+				107AD3BD1F2B7A60008C134F /* foam_mlang_order_Comparator.swift in Sources */,
+				107AD3B91F2B790A008C134F /* PropertyInfo.swift in Sources */,
+				107AD3BF1F2B7EF8008C134F /* ClassInfo.swift in Sources */,
 				107AD3B01F2B680F008C134F /* Initializable.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
