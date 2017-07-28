@@ -61,6 +61,7 @@ class XI
   X parent() { return parent_; }
 
   public Object get(X x, Object key) {
+    // Should this return parent().get(x, key)?
     return key.equals(key_) ? value_ : parent().get(key);
   }
 }
