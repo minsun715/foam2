@@ -15,9 +15,6 @@ foam.LIB({
 
 foam.CLASS({
   refines: 'foam.core.Model',
-  requires: [
-    'foam.swift.SwiftClass',
-  ],
   properties: [
     {
       class: 'String',

@@ -53,5 +53,10 @@ public class AbstractPropertyInfo: PropertyInfo {
     }
   }
  */
+  public func diff(o1: FObject, o2: FObject, diff: inout [String : Any?], prop: PropertyInfo) {
+    if ( !FOAM_utils.equals(prop.f(o1), prop.f(o2)) ) {
+      diff[prop.name] = prop.f(o2)
+    }
+  }
 }
 
