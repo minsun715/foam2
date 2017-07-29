@@ -10,11 +10,7 @@ public protocol ClassInfo {
   func isInstance(_ o: Any?) -> Bool
   func newInstance() -> Any
   func getObjClass() -> Any?.Type
-
-  /*
-  List      getAxioms();
-  Object    getAxiomByName(String name);
-  List      getAxiomsByClass(Class cls);
- */
+  func getAxioms() -> [Any]
+  func getAxiom(name: String) -> Any?
+  func getAxiom(class: Any?.Type) -> Any?
 }
-
