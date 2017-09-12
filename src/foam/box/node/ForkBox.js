@@ -27,8 +27,7 @@ foam.CLASS({
     'foam.box.Message',
     'foam.box.ReplyBox',
     'foam.box.SocketBox',
-    'foam.box.SubBox',
-    'foam.node.ChildProcessManager'
+    'foam.box.SubBox'
   ],
   imports: [
     'error',
@@ -131,7 +130,8 @@ foam.CLASS({
     },
     {
       name: 'child_',
-      documentation: 'The Node ChildProcess object of the forked child process.'
+      documentation: 'The Node ChildProcess object of the forked child process.',
+      value: null
     }
   ],
 
@@ -161,12 +161,15 @@ foam.CLASS({
 
       this.childProcessManager_.add(this.child_);
 
+      this.child_.on('exit', this.onChildExit);
+
       if (this.critical) {
         this.child_.on('error', this.onCriticalError);
-        this.child_.on('exit', this.onCriticalChildExit);
+        this.child_.on('exit', this.onCriticalError);
       }
 
       var process = require('process');
+      process.on('exit', this.onExit);
       this.child_.stdout.pipe(process.stdout);
       this.child_.stderr.pipe(process.stderr);
 
@@ -195,15 +198,13 @@ foam.CLASS({
             this.child_.unref();
           }.bind(this)));
     },
+    function onChildExit() { this.child_ = null; },
+    function onExit() { this.child_ && this.child_.kill(); },
     function onCriticalError() {
       var process = require('process');
       this.error(`PID=${process.pid} exiting due to critical error in child
                       (PID=${this.child_ ? this.child_.pid : 'UNKNOWN'})`);
       process.exit(1);
-    },
-    function onCriticalChildExit() {
-      this.childProcessManager_.remove(this.child_);
-      this.onCriticalError();
     }
   ]
 });
