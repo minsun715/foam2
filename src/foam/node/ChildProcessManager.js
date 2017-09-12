@@ -45,7 +45,7 @@ foam.CLASS({
     function onExit(code) {
       var children = this.children_;
       for ( var i = 0; i < children.length; i++ ) {
-        this.children[i].exit(code);
+        children[i].exit(code);
       }
     }
   ]
