@@ -123,12 +123,6 @@ foam.CLASS({
       name: 'replyBox_'
     },
     {
-      class: 'FObjectProperty',
-      of: 'foam.node.ChildProcessManager',
-      name: 'childProcessManager_',
-      factory: function() { return this.ChildProcessManager.create(); }
-    },
-    {
       name: 'child_',
       documentation: 'The Node ChildProcess object of the forked child process.',
       value: null
