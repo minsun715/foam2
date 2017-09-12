@@ -42,10 +42,10 @@ foam.CLASS({
   ],
 
   listeners: [
-    function onExit(code) {
+    function onExit() {
       var children = this.children_;
       for ( var i = 0; i < children.length; i++ ) {
-        children[i].exit(code);
+        children[i].kill();
       }
     }
   ]
