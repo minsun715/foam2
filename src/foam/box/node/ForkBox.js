@@ -153,8 +153,6 @@ foam.CLASS({
           this.nodeParams.concat([ this.childScriptPath ]),
           { detached: this.detached });
 
-      this.childProcessManager_.add(this.child_);
-
       this.child_.on('exit', this.onChildExit);
 
       if (this.critical) {
