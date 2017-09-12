@@ -27,7 +27,8 @@ foam.CLASS({
     'foam.box.Message',
     'foam.box.ReplyBox',
     'foam.box.SocketBox',
-    'foam.box.SubBox'
+    'foam.box.SubBox',
+    'foam.node.ChildProcessManager'
   ],
   imports: [
     'error',
@@ -123,6 +124,12 @@ foam.CLASS({
       name: 'replyBox_'
     },
     {
+      class: 'FObjectProperty',
+      of: 'foam.node.ChildProcessManager',
+      name: 'childProcessManager_',
+      factory: function() { return this.ChildProcessManager.create(); }
+    },
+    {
       name: 'child_',
       documentation: 'The Node ChildProcess object of the forked child process.'
     }
@@ -152,9 +159,11 @@ foam.CLASS({
           this.nodeParams.concat([ this.childScriptPath ]),
           { detached: this.detached });
 
+      this.childProcessManager_.add(this.child_);
+
       if (this.critical) {
         this.child_.on('error', this.onCriticalError);
-        this.child_.on('exit', this.onCriticalError);
+        this.child_.on('exit', this.onCriticalChildExit);
       }
 
       var process = require('process');
@@ -191,6 +200,10 @@ foam.CLASS({
       this.error(`PID=${process.pid} exiting due to critical error in child
                       (PID=${this.child_ ? this.child_.pid : 'UNKNOWN'})`);
       process.exit(1);
+    },
+    function onCriticalChildExit() {
+      this.childProcessManager_.remove(this.child_);
+      this.onCriticalError();
     }
   ]
 });
