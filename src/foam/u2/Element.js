@@ -2020,6 +2020,15 @@ foam.CLASS({
 
 
 foam.CLASS({
+  refines: 'foam.core.Currency',
+  requires: [ 'foam.u2.CurrencyView' ],
+  properties: [
+    [ 'view', { class: 'foam.u2.CurrencyView' } ]
+  ]
+});
+
+
+foam.CLASS({
   refines: 'foam.core.Boolean',
   requires: [ 'foam.u2.CheckBox' ],
   properties: [
@@ -2038,6 +2047,16 @@ foam.CLASS({
         viewa: 'foam.u2.TextField',
         viewb: { class: 'foam.u2.view.ColorPicker', onKey: true }
       }
+    }
+  ]
+});
+
+foam.CLASS({
+  refines: 'foam.core.FObjectProperty',
+  properties: [
+    {
+      name: 'view',
+      value: { class: 'foam.u2.DetailView' },
     }
   ]
 });

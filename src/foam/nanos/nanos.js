@@ -5,6 +5,7 @@
  */
 
 FOAM_FILES([
+  { name: "foam/nanos/auth/Address" },
   { name: "foam/nanos/auth/ChangePassword" },
   { name: "foam/nanos/auth/EnabledAware", flags: ['js'] },
   { name: "foam/nanos/auth/EnabledAwareInterface", flags: ['java'] },
@@ -38,6 +39,6 @@ FOAM_FILES([
   { name: "foam/nanos/auth/WebAuthService" },
   { name: "foam/nanos/auth/ClientAuthService" },
   { name: "foam/nanos/pm/PMInfo" },
-  { name: "foam/nanos/pm/PMTableView" },
+  { name: "foam/nanos/pm/PMTableView", flags:['web'] },
   { name: "foam/nanos/pm/TemperatureCView" }
 ]);

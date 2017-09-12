@@ -60,18 +60,15 @@ public class ServiceWebAgent
       int                 count          = reader.read(buffer_);
       X                   requestContext = x.put("httpRequest", req).put("httpResponse", resp);
 
-      System.out.println("Service Request");
       resp.setHeader("Access-Control-Allow-Origin", "*");
       buffer_.rewind();
-
-      System.out.println("Request: " + buffer_.toString()); buffer_.rewind();
 
       FObject result = requestContext.create(JSONParser.class).parseString(buffer_.toString());
 
       if ( result == null ) {
         resp.setStatus(resp.SC_BAD_REQUEST);
         System.err.println("Failed to parse request");
-        out.print("Failed to parse request");
+        out.print("Failed to parse request: " + buffer_.toString());
         out.flush();
         return;
       }
@@ -90,13 +87,6 @@ public class ServiceWebAgent
 
       foam.box.Message msg = (foam.box.Message) result;
       skeleton_.send(msg);
-
-      if ( ! ( msg.getAttributes().get("replyBox") instanceof foam.box.HTTPReplyBox ) ) {
-        // resp.complete(); //flushBuffer();
-        System.err.println("No ReplyBox");
-      }
-      resp.setStatus(resp.SC_OK);
-      resp.flushBuffer();
     } catch (Throwable t) {
       throw new RuntimeException(t);
     }

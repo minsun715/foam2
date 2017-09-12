@@ -84,7 +84,7 @@ foam.CLASS({
       value: function(value) {
         this.start()
           .style({'text-align': 'left', 'padding-right': '20px'})
-          .add('$' + value.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,'))
+          .add('$' + (value*100).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,'))
         .end();
       }
     }
@@ -146,6 +146,10 @@ foam.CLASS({
   axioms: [
     foam.u2.CSS.create({
       code: function CSS() {/*
+        ^ {
+          border-spacing: 14px 8px;
+        }
+
         ^ th {
           text-align: left;
           white-space: nowrap;
@@ -262,7 +266,7 @@ foam.CLASS({
     },
     {
       name: 'selection',
-      expression: function(importSelection) { return importSelection; },
+      expression: function(importSelection) { return importSelection || null; },
     },
     'hoverSelection',
     'dropdownOrigin',

@@ -17,12 +17,63 @@
 
 foam.CLASS({
   package: 'foam.dao',
+  name: 'ResetSink',
+  extends: 'foam.dao.ProxySink',
+  implements: [ 'foam.core.Serializable' ],
+  methods: [
+    {
+      name: 'put',
+      code: function(obj, sub) { this.reset(s); },
+      javaCode: 'reset(sub);'
+    },
+    {
+      name: 'remove',
+      code: function(obj, sub) { this.reset(s); },
+      javaCode: 'reset(sub);'
+    }
+  ]
+});
+
+foam.CLASS({
+  package: 'foam.dao',
+  name: 'MergedResetSink',
+  extends: 'foam.dao.ResetSink',
+  implements: [ 'foam.core.Serializable' ],
+  methods: [
+    {
+      name: 'reset',
+      code: function(sub) { this.doReset(sub); },
+      javaCode: `doReset(sub);`
+    }
+  ],
+  listeners: [
+    {
+      name: 'doReset',
+      isMerged: true,
+      mergeDelay: 200,
+      code: function(sub) {
+        this.delegate.reset(sub);
+      },
+      javaCode: `
+try {
+  getDelegate().reset((foam.core.Detachable)event);
+} catch(Exception e) {
+  ((foam.core.Detachable)event).detach();
+}
+`
+    }
+  ]
+});
+
+foam.CLASS({
+  package: 'foam.dao',
   name: 'ClientDAO',
   extends: 'foam.dao.BaseClientDAO',
 
   requires: [
     'foam.core.Serializable',
-    'foam.dao.BoxDAOListener'
+    'foam.dao.ClientSink',
+    'foam.box.SkeletonBox'
   ],
 
   methods: [
@@ -41,7 +92,7 @@ foam.CLASS({
     function select_(x, sink, skip, limit, order, predicate) {
       if ( predicate === foam.mlang.predicate.True.create() ) predicate = null;
       if ( ! skip ) skip = 0;
-      if ( ! limit ) limit = Number.MAX_SAFE_INTEGER;
+      if ( foam.Undefined.isInstance(limit) ) limit = Number.MAX_SAFE_INTEGER;
 
       if ( ! this.Serializable.isInstance(sink) ) {
         var self = this;
@@ -71,32 +122,34 @@ foam.CLASS({
     },
 
     function removeAll_(x, skip, limit, order, predicate) {
-        return this.SUPER(null, skip, limit, order, predicate);
+      if ( predicate === foam.mlang.predicate.True.create() ) predicate = null;
+      if ( ! skip ) skip = 0;
+      if ( foam.Undefined.isInstance(limit) ) limit = Number.MAX_SAFE_INTEGER;
+
+      return this.SUPER(null, skip, limit, order, predicate);
     },
 
     function listen_(x, sink, predicate) {
       // TODO: This should probably just be handled automatically via a RemoteSink/Listener
       // TODO: Unsubscribe support.
-      var id = foam.next$UID();
-      var replyBox = this.__context__.registry.register(
-        id,
-        this.delegateReplyPolicy,
-        {
-          send: function(m) {
-            switch(m.object.name) {
-              case 'put':
-              case 'remove':
-                sink[m.object.name](null, m.object.obj);
-              break;
-              case 'reset':
-                sink.reset(null);
-            }
-          }
-        });
 
-      this.SUPER(null, this.BoxDAOListener.create({
-        box: replyBox
-      }), predicate);
+      var skeleton = this.SkeletonBox.create({
+        data: sink
+      });
+
+      var clientSink = this.ClientSink.create({
+        delegate: this.__context__.registry.register(
+          null,
+          this.delegateReplyPolicy,
+          skeleton
+        )
+      });
+
+      clientSink = foam.dao.MergedResetSink.create({
+        delegate: clientSink
+      });
+
+      this.SUPER(null, clientSink, predicate);
     }
   ]
 });
