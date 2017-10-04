@@ -6,17 +6,17 @@
 
 package foam.core;
 
-import foam.lib.parse.Parser;
 import foam.nanos.logger.Logger;
-import java.util.Map;
-import javax.xml.stream.XMLStreamException;
-import javax.xml.stream.XMLStreamReader;
-import javax.xml.stream.XMLStreamWriter;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamReader;
+import java.sql.PreparedStatement;
+import java.util.Map;
+
 public abstract class AbstractPropertyInfo
-  implements PropertyInfo
+    implements PropertyInfo
 {
   protected ClassInfo parent;
 
@@ -32,13 +32,27 @@ public abstract class AbstractPropertyInfo
   }
 
   @Override
-  public void toJSON(foam.lib.json.Outputter outputter, StringBuilder out, Object value) {
-    outputter.output(out, value);
+  public void toJSON(foam.lib.json.Outputter outputter, Object value) {
+    outputter.output(value);
+  }
+
+  @Override
+  public void toCSV(foam.lib.csv.Outputter outputter, Object value) {
+    outputter.output(value);
   }
 
   @Override
   public foam.mlang.Expr partialEval() {
     return this;
+  }
+
+  @Override
+  public String createStatement() {
+    return getName();
+  }
+
+  @Override
+  public void prepareStatement(PreparedStatement stmt) {
   }
 
   @Override
@@ -72,7 +86,6 @@ public abstract class AbstractPropertyInfo
   @Override
   public void toXML(FObject obj, Document doc, Element objElement) {
     Object value = this.f(obj);
-    if ( this.getTransient() ) return;
     if ( value != null && value != "" ) {
       Element prop = doc.createElement(this.getName());
       prop.appendChild(doc.createTextNode(value.toString()));

@@ -1268,12 +1268,15 @@ foam.CLASS({
       name: 'arg2'
     },
     {
+      class: 'Map',
       name: 'groups',
-      factory: function() { return {}; }
+      factory: function() { return {}; },
+      javaFactory: 'return new java.util.HashMap<Object, foam.dao.Sink>();'
     },
     {
-      class: 'StringArray',
+      class: 'List',
       name: 'groupKeys',
+      javaFactory: 'return new java.util.ArrayList();',
       factory: function() { return []; }
     },
     {
