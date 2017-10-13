@@ -3,7 +3,6 @@
  * Copyright 2017 The FOAM Authors. All Rights Reserved.
  * http://www.apache.org/licenses/LICENSE-2.0
  */
-
 foam.CLASS({
   package: 'foam.box',
   name: 'HTTPBox',
@@ -66,7 +65,11 @@ foam.CLASS({
       factory: function() {
         return this.Parser.create({
           strict:          true,
-          creationContext: this.creationContext
+          // Trust our own server, but force other servers to go through
+          // whitelist.
+          creationContext: this.url.indexOf(':') == -1 ?
+            this.__context__     :
+            this.creationContext
         });
       }
     },
@@ -88,6 +91,10 @@ foam.CLASS({
         cls.extras.push(foam.java.Code.create({
           data: `
 protected class Outputter extends foam.lib.json.Outputter {
+  public Outputter() {
+    super(foam.lib.json.OutputterMode.NETWORK);
+  }
+
   protected void outputFObject(foam.core.FObject o) {
     if ( o == getMe() ) {
       o = getX().create(foam.box.HTTPReplyBox.class);

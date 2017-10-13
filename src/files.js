@@ -21,6 +21,14 @@
  * pages via script tags easily.
  */
 
+if ( typeof window !== 'undefined' ) global = window;
+
+global.SUPRESSED_WARNINGS = global.SUPRESSED_WARNINGS || {};
+global.supressWarnings = function (a) {
+  a.forEach(function(key) {
+    SUPRESSED_WARNINGS[key] = true;
+  })
+}
 FOAM_FILES([
   { name: "foam/core/poly" },
   { name: "foam/core/lib" },
@@ -103,6 +111,7 @@ FOAM_FILES([
   { name: "foam/u2/AttrSlot" },
   { name: "foam/u2/ViewSpec" },
   { name: "foam/u2/Visibility"},
+  { name: "foam/u2/NoJava" ,  flags: ['js','debug'] },
   { name: "foam/u2/ElementJava" ,  flags: ['java'] },
   { name: "foam/u2/RowFormatter" },
 //  { name: "foam/u2/AttrSlot", flags: ['web'] },
@@ -120,6 +129,7 @@ FOAM_FILES([
   { name: "foam/dao/DAODecorator" },
   { name: "foam/dao/AbstractDAO" },
   { name: "foam/dao/DAOProperty" },
+  { name: "foam/dao/SQLStatement" },
   { name: "foam/mlang/order/Comparator", flags: ['js'] },
   { name: "foam/mlang/order/ComparatorJava", flags: ['java'] },
   { name: "foam/mlang/mlang" },
@@ -179,12 +189,15 @@ FOAM_FILES([
   { name: "foam/blob/Blob" },
   { name: "lib/node/json_dao", flags: ['node'] },
   { name: "lib/utf8" },
+  { name: "foam/net/web/WebSocket" },
+  { name: "foam/net/web/WebSocketService" },
   { name: "lib/web/net" }, // No flags: ['web']: base classes for lib/node/net.
   { name: "foam/messageport/MessagePortService", flags: ['web'] },
   { name: "lib/node/net", flags: ['node'] },
   { name: "lib/firebase" },
   { name: "lib/fcm" },
   { name: "lib/Stub" },
+  { name: "lib/StubJava", flags: ['java'] },
   { name: "foam/box/Box" },
   { name: "foam/box/RemoteException" },
   { name: "foam/box/Skeleton" },
@@ -205,7 +218,6 @@ FOAM_FILES([
   { name: "foam/box/SelectorRegistry" },
   { name: "foam/box/LookupBox" },
   { name: "foam/box/NamedBox" },
-  { name: "foam/box/RetryBox" },
   { name: "foam/box/ReplyBox" },
   { name: "foam/box/FunctionBox" },
   { name: "foam/box/RPCReturnMessage" },
@@ -343,7 +355,7 @@ FOAM_FILES([
   { name: "foam/net/auth/AuthAwareHTTPRequest" },
   { name: "foam/net/auth/TokenBearerHTTPRequest" },
   { name: "foam/net/auth/AuthAgent" },
-  { name: "foam/doc/DocBrowser", flags: ['debug, web'] },
+  { name: "foam/doc/DocBrowser", flags: ['debug', 'web'] },
   { name: "com/google/net/node/Google2LOAuthAgent", flags: ['node', 'gcloud'] },
   { name: "com/google/cloud/datastore/types", flags: ['gcloud'] },
   { name: "com/google/cloud/datastore/mlang", flags: ['gcloud'] },

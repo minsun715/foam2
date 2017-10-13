@@ -11,15 +11,10 @@ foam.CLASS({
 
   documentation: 'Performance Measurement database entry.',
 
-//  ids: [ 'clsname', 'pmname' ],
+  ids: [ 'clsname', 'pmname' ],
 
-  searchColumns: [ ],
 
   properties: [
-    {
-      class: 'Long',
-      name: 'id'
-    },
     {
       class: 'String',
       name: 'clsname',
