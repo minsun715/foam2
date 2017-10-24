@@ -1800,7 +1800,7 @@ foam.CLASS({
           var value = attr.value;
 
           out(' ', name);
-          if ( value !== false ) out('="', value, '"');
+          if ( value !== false ) out('="', encodeURIComponent(value), '"');
         }
       }
 
@@ -1972,12 +1972,14 @@ foam.CLASS({
   ]
 });
 
+
 foam.CLASS({
   refines: 'foam.core.StringArray',
   properties: [
     [ 'view', { class: 'foam.u2.view.StringArrayView' } ]
   ]
 });
+
 
 foam.CLASS({
   refines: 'foam.core.Date',

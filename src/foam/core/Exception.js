@@ -15,23 +15,7 @@
  * limitations under the License.
  */
 
-foam.CLASS({
-  package: 'foam.box',
-  name: 'NoSuchNameException',
-  implements: ['foam.core.Exception'],
-
-  properties: [
-    {
-      class: 'String',
-      name: 'name'
-    },
-    {
-      class: 'String',
-      name: 'message',
-      transient: true,
-      expression: function(name) {
-        return 'Could not find registration for ' + name;
-      }
-    }
-  ]
+foam.INTERFACE({
+  package: 'foam.core',
+  name: 'Exception'
 });
