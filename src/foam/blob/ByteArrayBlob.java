@@ -1,5 +1,6 @@
 /**
  * @license
+ * Copyright 2016 Google Inc. All Rights Reserved.
  * Copyright 2017 The FOAM Authors. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,16 +16,29 @@
  * limitations under the License.
  */
 
-foam.CLASS({
-  package: 'foam.box',
-  name: 'ProxyBox',
-  implements: [ 'foam.box.Box' ],
+package foam.blob;
 
-  properties: [
-    {
-      class: 'Proxy',
-      of: 'foam.box.Box',
-      name: 'delegate'
+import java.nio.ByteBuffer;
+
+public class ByteArrayBlob
+    extends AbstractBlob
+{
+  protected Buffer buffer_;
+
+  public ByteArrayBlob(byte[] data) {
+    this.buffer_ = new Buffer(data.length, ByteBuffer.wrap(data));
+  }
+
+  @Override
+  public Buffer read(Buffer buffer, long offset) {
+    if ( offset == 0 ) {
+      return buffer_;
     }
-  ]
-});
+    return buffer_.slice(offset, getSize());
+  }
+
+  @Override
+  public long getSize() {
+    return buffer_.getLength();
+  }
+}

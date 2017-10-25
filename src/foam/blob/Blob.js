@@ -16,16 +16,35 @@
  * limitations under the License.
  */
 
-foam.INTERFACE({
+foam.CLASS({
   package: 'foam.blob',
-  name: 'Blob',
+  name: 'Buffer',
 
   properties: [
     {
       class: 'Long',
-      name: 'size'
+      name: 'length'
+    },
+    {
+      class: 'Object',
+      name: 'data',
+      javaType: 'java.nio.ByteBuffer',
+      factory: function() {
+        return new ArrayBuffer(this.length);
+      }
     }
   ],
+
+  methods: [
+    function slice(start, end) {
+      return foam.blob.Buffer.create();
+    }
+  ]
+});
+
+foam.INTERFACE({
+  package: 'foam.blob',
+  name: 'Blob',
 
   methods: [
     {
@@ -36,8 +55,94 @@ foam.INTERFACE({
           name: 'buffer',
         },
         {
-          name: 'offset',
-          of: 'Long'
+          class: 'Long',
+          name: 'offset'
+        }
+      ]
+    },
+    {
+      name: 'getSize',
+      returns: 'Long'
+    }
+  ]
+});
+
+foam.INTERFACE({
+  package: 'foam.blob',
+  name: 'BlobService',
+
+  documentation: 'BlobService Interface',
+
+  methods: [
+    {
+      name: 'put',
+      returns: 'Promise',
+      args: [
+        {
+          class: 'Blob',
+          name: 'blob'
+        }
+      ]
+    },
+    {
+      name: 'put_',
+      returns: 'Promise',
+      args: [
+        {
+          name: 'x',
+          of: 'foam.core.X'
+        },
+        {
+          class: 'Blob',
+          name: 'blob'
+        }
+      ]
+    },
+    {
+      name: 'find',
+      returns: 'Promise',
+      args: [
+        {
+          class: 'String',
+          name: 'id'
+        }
+      ]
+    },
+    {
+      name: 'find_',
+      returns: 'Promise',
+      args: [
+        {
+          name: 'x',
+          of: 'foam.core.X'
+        },
+        {
+          class: 'String',
+          name: 'id'
+        }
+      ]
+    },
+    {
+      name: 'urlFor',
+      returns: 'String',
+      args: [
+        {
+          class: 'Blob',
+          name: 'blob'
+        }
+      ]
+    },
+    {
+      name: 'urlFor_',
+      returns: 'String',
+      args: [
+        {
+          name: 'x',
+          of: 'foam.core.X'
+        },
+        {
+          class: 'Blob',
+          name: 'blob'
         }
       ]
     }
@@ -47,7 +152,10 @@ foam.INTERFACE({
 foam.CLASS({
   package: 'foam.blob',
   name: 'AbstractBlob',
+  abstract: true,
+
   implements: ['foam.blob.Blob'],
+
   methods: [
     function pipe(writeFn) {
       var self = this;
@@ -83,16 +191,85 @@ foam.CLASS({
 
 foam.CLASS({
   package: 'foam.blob',
+  name: 'AbstractBlobService',
+  abstract: true,
+
+  implements: ['foam.blob.BlobService'],
+
+  requires: [
+    'foam.blob.ProxyBlobService'
+  ],
+
+  methods: [
+    {
+      name: 'inX',
+      code: function (x) {
+        return this.ProxyBlobService.create({ delegate: this }, x);
+      }
+    },
+    function put(blob) {
+      return this.put_(this.__context__, blob);
+    },
+
+    function find(id) {
+      return this.find_(this.__context__, id);
+    },
+
+    function urlFor(blob) {
+      return this.urlFor_(this.__context__, blob);
+    }
+  ]
+});
+
+foam.CLASS({
+  package: 'foam.blob',
+  name: 'ProxyBlob',
+  extends: 'foam.blob.AbstractBlob',
+
+  documentation: 'Proxy implementation for the Blob interface',
+
+  properties: [
+    {
+      class: 'Proxy',
+      of: 'foam.blob.Blob',
+      name: 'delegate',
+      forwards: [ 'read', 'getSize' ]
+    }
+  ]
+});
+
+foam.CLASS({
+  package: 'foam.blob',
+  name: 'ProxyBlobService',
+  extends: 'foam.blob.AbstractBlobService',
+
+  documentation: 'Proxy implementation for the BlobService interface',
+
+  properties: [
+    {
+      class: 'Proxy',
+      of: 'foam.blob.BlobService',
+      name: 'delegate',
+      forwards: [ 'put_', 'find_', 'urlFor_' ]
+    }
+  ]
+});
+
+foam.CLASS({
+  package: 'foam.blob',
   name: 'SubBlob',
   extends: 'foam.blob.AbstractBlob',
   properties: [
     {
+      class: 'Blob',
       name: 'parent',
     },
     {
+      class: 'Long',
       name: 'offset'
     },
     {
+      class: 'Long',
       name: 'size',
       assertValue: function(value) {
         foam.assert(this.offset + value <= this.parent.size, 'Cannot create sub blob beyond end of parent.');
@@ -123,7 +300,10 @@ foam.CLASS({
   name: 'BlobBlob',
   extends: 'foam.blob.AbstractBlob',
   properties: [
-    'blob',
+    {
+      class: 'Blob',
+      name: 'blob'
+    },
     {
       name: 'size',
       factory: function() {
@@ -156,7 +336,7 @@ foam.CLASS({
 foam.CLASS({
   package: 'foam.blob',
   name: 'IdentifiedBlob',
-  extends: 'foam.blob.AbstractBlob',
+  extends: 'foam.blob.ProxyBlob',
   imports: [
     'blobService?'
   ],
@@ -170,7 +350,8 @@ foam.CLASS({
       transient: true,
       factory: function() {
         return this.blobService.find(this.id);
-      }
+      },
+      javaFactory: 'return ((BlobService) getBlobService()).find(getId());'
     }
   ],
   methods: [
@@ -207,7 +388,7 @@ foam.CLASS({
     {
       class: 'Stub',
       of: 'foam.blob.Blob',
-      name: 'box'
+      name: 'delegate'
     }
   ]
 });
@@ -577,6 +758,8 @@ foam.CLASS({
 foam.CLASS({
   package: 'foam.blob',
   name: 'TestBlobService',
+  extends: 'foam.blob.AbstractBlobService',
+
   requires: [
     'foam.blob.IdentifiedBlob',
     'foam.blob.BlobBlob'
@@ -593,20 +776,24 @@ foam.CLASS({
     }
   ],
   methods: [
-    function put(file) {
+    function put_(x, file) {
       var id = this.nextId++;
       this.blobs[id] = file;
       return Promise.resolve(this.IdentifiedBlob.create({ id: id }));
     },
-    function find(id) {
+    function find_(x, id) {
       return Promise.resolve(this.blobs[id] ?
                              this.BlobBlob.create({ blob: this.blobs[id] }) :
                              null);
     },
-    function urlFor(id) {
-      return this.blobs[id] ?
-        URL.createObjectURL(this.blobs[id]) :
-        null;
+    function urlFor_(x, blob) {
+      if ( this.IdentifiedBlob.isInstance(blob) ) {
+        return URL.createObjectURL(this.blobs[blob.id]);
+      } else if ( this.BlobBlob.isInstance(blob) ) {
+        return URL.createObjectURL(blob.blob);
+      }
+
+      return null;
     }
   ]
 });
